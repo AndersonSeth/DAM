@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo de Template</title>
+    <!-- Adicione aqui quaisquer estilos CSS ou bibliotecas JavaScript que você precise -->
+</head>
+<body>
+    <h1>Informações do Filme</h1>
+    <form id="searchForm">
+        <label for="idInput">Digite o ID do Filme:</label>
+        <input type="text" id="idInput" name="idInput">
+        <button type="submit">Buscar</button>
+    </form>
+    
+    <div id="filmeInfo">
+        <!-- Aqui é onde as informações do filme serão exibidas -->
+    </div>
+
+    <script>
+        document.getElementById("searchForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            let idFilme = document.getElementById("idInput").value;
+            fetch(`/buscar_filme?id=${idFilme}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Exibir as informações do filme na página
+                    document.getElementById("filmeInfo").innerHTML = `
+                        <h2>Informações do Filme</h2>
+                        <p><strong>Ano:</strong> ${data.ano}</p>
+                        <p><strong>Nome:</strong> ${data.nome}</p>
+                        <p><strong>Diretor:</strong> ${data.diretor}</p>
+                        <p><strong>Gênero:</strong> ${data.genero}</p>
+                    `;
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar informações do filme:', error);
+                });
+        });
+    </script>
+</body>
+</html>
